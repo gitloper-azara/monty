@@ -1,5 +1,5 @@
 #include "monty.h"
-#include <stdio.h>
+
 
 /**
  * tokenise - a function that generates tokens
@@ -8,37 +8,25 @@
  * Return: token
 */
 
-char **tokenise(char *line, unsigned int line_number)
+char *tokenise(char *line, unsigned int line_number)
 {
-    char **tokens;
-    char *token;
-    char delim[2] = "\n ";
-    int i;
+	char *tokens;
+	char *token;
+	char delim[2] = "\n ";
 
-    tokens = malloc(MAX_TOKENS * sizeof(char *));
-    if (!tokens)
-    {
-        fprintf(stderr, "Error: Unable to allocate memory for tokens"
-        " at line %u\n", line_number);
-        exit(EXIT_FAILURE);
-    }
+	token = strtok(line, delim);
+	if (token == NULL)
+		return (NULL);
+	tokens = strtok(NULL, delim);
 
-    token = strtok(line, delim);
-    i = 0;
-    while (token)
-    {
-        tokens[i++] = strdup(token);
-        if (!token[i - 1])
-        {
-            fprintf(stderr, "Error: Unable to allocate memory for tokens"
-        " at line %u\n", line_number);
-        exit(EXIT_FAILURE);
-        }
-        token = strtok(NULL, delim);
-    }
+	if (tokens == NULL && strcmp(token, "push") == 0)
+	{
+		dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
+			line_number);
+		exit(EXIT_FAILURE);
+	}
 
-    tokens[i] = NULL;
-    return (tokens);
+	return (token);
 }
 
 /**
@@ -49,24 +37,25 @@ char **tokenise(char *line, unsigned int line_number)
  * Return: pointer to the op function, or NULL
 */
 
-void get_ops(char **ops, stack_t **stack, unsigned int line_number)
+void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 {
-    instruction_t search_op[] = {
-        {"push", op_push},
-        {"pall", op_pall},
-        {NULL, NULL}
-    };
-    int idx = 0;
+	instruction_t search_op[] = {
+		{"push", op_push},
+		{"pall", op_pall},
+		{NULL, NULL}
+	};
+	int idx = 0;
 
-    while (search_op[idx].opcode)
-    {
-        if (strcmp(search_op[idx].opcode, *ops) == 0)
-        {
-            search_op[idx].f(stack, line_number);
-            return;
-        }
-        idx++;
-    }
-    printf("L%d: Unknown instruction %s\n", line_number, *ops);
-    exit(EXIT_FAILURE);
+	while (search_op[idx].opcode)
+	{
+		if (strcmp(search_op[idx].opcode, ops) == 0)
+		{
+			search_op[idx].f(stack, line_number);
+			return;
+		}
+		idx++;
+	}
+
+	printf("L%d: Unknown instruction %s\n", line_number, ops);
+	exit(EXIT_FAILURE);
 }
