@@ -17,7 +17,7 @@ void op_push(stack_t **stack, unsigned int line_number)
 	if (newNode == NULL)
 	{
 		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-	        return;
+		return;
 	}
 
 	newNode->n = global_variable;
@@ -32,6 +32,8 @@ void op_push(stack_t **stack, unsigned int line_number)
 	newNode->next = *stack;
 	(*stack)->prev = newNode;
 	*stack = newNode;
+
+	global_variable = 0;
 }
 
 /**

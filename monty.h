@@ -2,6 +2,7 @@
 #define MONTY_H
 
 #include <limits.h>
+#include <errno.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,8 +12,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#define EXIT_SUCCESS 0
-#define EXIT_FAILURE 1
+/* #define EXIT_SUCCESS 0
+   #define EXIT_FAILURE 1 */
 #define MAX_TOKENS 100
 /* #define MAX_LENGTH 1000 */
 
