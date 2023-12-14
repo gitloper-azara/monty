@@ -10,24 +10,50 @@
 
 char *tokenise(char *line, unsigned int line_number)
 {
-	char *tokens;
-	char *token;
-	char delim[2] = "\n ";
+	static char *line_copy = NULL;
+	/* char *tokens; */
+	char *token, *result;
+	char *delim = " \n";
 
-	token = strtok(line, delim);
-	if (token == NULL)
-		return (NULL);
-	tokens = strtok(NULL, delim);
-
-	if (tokens == NULL && strcmp(token, "push") == 0)
+	if (line != NULL)
 	{
-		dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
-			line_number);
-		exit(EXIT_FAILURE);
+		free(line_copy);
+		line_copy = strdup(line);
+		if (line_copy == NULL)
+		{
+			dprintf(STDERR_FILENO, "Error: strdup failed\n");
+			exit(EXIT_FAILURE);
+		}
+		token = strtok(line_copy, delim);
+		if (token == NULL)
+		{
+			dprintf(STDERR_FILENO,
+				"L%u: usage debug: push integer\n",
+				line_number);
+			exit(EXIT_FAILURE);
+		}
+		result = strdup(token);
+		free(line_copy);
+		return (result);
 	}
-
-	free(token);
-	return (token);
+	else
+	{
+		token = strtok(NULL, delim);
+		if (token == NULL)
+		{
+			dprintf(STDERR_FILENO,
+				"L%u: usage debug1: push integer\n",
+				line_number);
+			exit(EXIT_FAILURE);
+		}
+		result = strdup(token);
+		if (result == NULL)
+		{
+			dprintf(STDERR_FILENO, "Error: strdup failed\n");
+			exit(EXIT_FAILURE);
+		}
+		return (result);
+	}
 }
 
 /**
@@ -45,13 +71,20 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 		{"pall", op_pall},
 		{NULL, NULL}
 	};
+	char *token;
 	int idx = 0;
 
 	while (search_op[idx].opcode)
 	{
 		if (strcmp(search_op[idx].opcode, ops) == 0)
 		{
+			if (strcmp(ops, "push") == 0)
+			{
+				token = tokenise(NULL, line_number);
+				global_variable = atoi(token);
+			}
 			search_op[idx].f(stack, line_number);
+			free(token);
 			return;
 		}
 		idx++;
@@ -59,5 +92,6 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 
 	dprintf(STDERR_FILENO,
 		"L%d: Unknown instruction %s\n", line_number, ops);
+	/* free(token); */
 	exit(EXIT_FAILURE);
 }
