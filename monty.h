@@ -52,6 +52,7 @@ typedef struct instruction_s
 
 void op_push(stack_t **stack, unsigned int line_number);
 void op_pall(stack_t **stack, unsigned int line_number);
+void op_pint(stack_t **stack, unsigned int line_number);
 char *tokenise(char *line, unsigned int line_number);
 void get_ops(char *ops, stack_t **stack, unsigned int line_number);
 void freeStack(stack_t *head);

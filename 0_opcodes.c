@@ -56,3 +56,24 @@ void op_pall(stack_t **stack, unsigned int line_number)
 		temp = temp->next;
 	}
 }
+
+/**
+ * op_pint - a function that prints the value at the top of the stack
+ * @stack: struct stack
+ * @line_number: line number of monty file
+ */
+
+void op_pint(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp = NULL;
+
+	temp = *stack;
+	printf("%d\n", temp->n);
+
+	if (!stack || !(*stack))
+	{
+		dprintf(STDERR_FILENO, "L%u: can't print, stack empty\n",
+			line_number);
+		exit(EXIT_FAILURE);
+	}
+}
