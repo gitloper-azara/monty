@@ -88,6 +88,7 @@ void op_pstr(stack_t **stack, unsigned int line_number);
 
 /* rotl and rotr ops */
 void op_rotl(stack_t **stack, unsigned int line_number);
+void op_rotr(stack_t **stack, unsigned int line_number);
 
 /* ops handlers */
 char *tokenise(char *line, unsigned int line_number);

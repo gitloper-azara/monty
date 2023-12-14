@@ -100,3 +100,30 @@ void op_rotl(stack_t **stack, unsigned int line_number)
 	temp->prev = lastNode;
 	temp->next = NULL;
 }
+
+/**
+ * op_rotr - a function that rotates the stack to the bottom
+ * @stack: double pointer to the head of the stack
+ * @line_number: line number of the monty file
+ */
+
+void op_rotr(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp, *lastNode;
+	(void)line_number;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+		return;
+	lastNode = *stack;
+
+	while (lastNode->next != NULL)
+		lastNode = lastNode->next;
+
+	temp = lastNode->prev;
+	temp->next = NULL;
+
+	lastNode->prev = NULL;
+	lastNode->next = *stack;
+	(*stack)->prev = lastNode;
+	*stack = lastNode;
+}
