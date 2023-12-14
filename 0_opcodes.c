@@ -4,7 +4,7 @@ int global_variable;
 /**
  * op_push - a function that implements the push opcodes that
  * pushes an element to the stack
- * @stack: struct stack
+ * @stack: double pointer to the head of the stack
  * @line_number: line number
 */
 
@@ -37,7 +37,7 @@ void op_push(stack_t **stack, unsigned int line_number)
 /**
  * op_pall - a function that implements the pall opcodes that
  * prints all the values on the stack from the top of the stack
- * @stack: struct stack
+ * @stack: double pointer to the head of the stack
  * @line_number: line number
 */
 
@@ -59,7 +59,7 @@ void op_pall(stack_t **stack, unsigned int line_number)
 
 /**
  * op_pint - a function that prints the value at the top of the stack
- * @stack: struct stack
+ * @stack: double pointer to the head of the stack
  * @line_number: line number of monty file
  */
 
@@ -76,4 +76,29 @@ void op_pint(stack_t **stack, unsigned int line_number)
 			line_number);
 		exit(EXIT_FAILURE);
 	}
+}
+
+/**
+ * op_pop - a function that removes the top element of the stack
+ * @stack: double pointer to the head of the stack
+ * @line_number: line number of the monty file
+ */
+
+void op_pop(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp;
+
+	if (!(*stack))
+	{
+		dprintf(STDERR_FILENO, "L%u: can't pop an empty stack\n",
+			line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	temp = *stack;
+	*stack = (*stack)->next;
+	if (*stack)
+		(*stack)->prev = NULL;
+
+	free(temp);
 }
