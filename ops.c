@@ -69,6 +69,6 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 	}
 
 	dprintf(STDERR_FILENO,
-		"L%d: Unknown instruction1 %s\n", line_number, ops);
+		"L%d: Unknown instruction %s\n", line_number, ops);
 	exit(EXIT_FAILURE);
 }
