@@ -39,16 +39,13 @@ int main(int argc, char **argv)
 				lineNUM++;
 				token = tokenise(line, lineNUM);
 				if (token)
-				{
 					get_ops(token, &head, lineNUM);
-					free(token);
-				}
 				bytesREAD = getline(&line, &length, fp);
 			}
+			free(line);
+			freeStack(head);
+			fclose(fp);
 		}
-		free(line);
-		freeStack(head);
-		fclose(fp);
 	}
 
 	return (EXIT_SUCCESS);

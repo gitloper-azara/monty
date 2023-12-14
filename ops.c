@@ -10,23 +10,27 @@
 char *tokenise(char *line, unsigned int line_number)
 {
 	char *lineHolder = NULL;
-	char *token;
-	char *delim = " \n";
+	char *token, *delim = " \n";
+	size_t i;
 
-        token = strtok(line, delim);
+	token = strtok(line, delim);
 	if (token == NULL)
 		return (NULL);
+
 	lineHolder = strtok(NULL, delim);
 	if (lineHolder)
 	{
-		if (isdigit(lineHolder))
-			global_variable = atoi(lineHolder);
-		else
+		for (i = 0; i < strlen(lineHolder); i++)
 		{
-			dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
-				line_number);
-			exit(EXIT_FAILURE);
+			if (!isdigit(lineHolder[i]))
+			{
+				dprintf(STDERR_FILENO,
+					"L%u: usage: push integer\n",
+					line_number);
+				exit(EXIT_FAILURE);
+			}
 		}
+		global_variable = atoi(lineHolder);
 	}
 	else if (lineHolder == NULL && strcmp(token, "push") == 0)
 	{
