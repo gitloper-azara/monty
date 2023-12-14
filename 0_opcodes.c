@@ -11,13 +11,13 @@ int global_variable;
 void op_push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *newNode = NULL;
+	(void)line_number;
 
 	/* allocate memory for new node */
 	newNode = malloc(sizeof(stack_t));
 	if (newNode == NULL)
 	{
-		dprintf(STDERR_FILENO, "Error: malloc failed at line %u\n",
-			line_number);
+		dprintf(STDERR_FILENO, "Error: malloc failed\n");
 		return;
 	}
 
