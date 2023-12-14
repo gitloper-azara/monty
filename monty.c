@@ -40,6 +40,7 @@ int main(int argc, char **argv)
 				token = tokenise(line, lineNUM);
 				if (token)
 					get_ops(token, &head, lineNUM);
+				bytesREAD = getline(&line, &length, fp);
 			}
 		}
 		free(line);
