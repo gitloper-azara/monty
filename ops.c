@@ -13,6 +13,9 @@ char *tokenise(char *line, unsigned int line_number)
 	char *token, *delim = " \n";
 	size_t i;
 
+	if (line != NULL && line[0] == '#')
+		return (NULL);
+
 	token = strtok(line, delim);
 	if (token == NULL)
 		return (NULL);
