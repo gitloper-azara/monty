@@ -12,10 +12,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-/* #define EXIT_SUCCESS 0
-   #define EXIT_FAILURE 1 */
 #define MAX_TOKENS 100
-/* #define MAX_LENGTH 1000 */
 
 extern int global_variable;
 
