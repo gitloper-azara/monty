@@ -1,6 +1,5 @@
 #include "monty.h"
 
-
 /**
  * tokenise - a function that generates tokens
  * @line: line read from file
