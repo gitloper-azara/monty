@@ -41,10 +41,7 @@ void op_push(stack_t **stack, unsigned int line_number)
 	newNode->next = *stack;
 	*stack = newNode;
 
-	/*
-	* reset global variable to 0 after pushing its value to ensure
-	* predictable behaviour for subsequent pushes
-	*/
+	/* reset global variable to 0 */
 	global_variable = 0;
 }
 
