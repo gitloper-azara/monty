@@ -60,6 +60,7 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 		{"add", op_add},
 		{"nop", op_nop},
 		{"sub", op_sub},
+		{"div", op_div},
 		{NULL, NULL}
 	};
 	unsigned int idx = 0;
