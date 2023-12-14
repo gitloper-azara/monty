@@ -10,7 +10,7 @@
 char *tokenise(char *line, unsigned int line_number)
 {
 	char *lineHolder = NULL;
-	char *token, *delim = " \n";
+	char *token, *delim = " \t\n";
 	size_t i;
 
 	if (line != NULL && line[0] == '#')

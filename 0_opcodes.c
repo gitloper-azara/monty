@@ -11,28 +11,40 @@ int global_variable;
 void op_push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *newNode = NULL;
-	(void)line_number;
 
+	/* allocate memory for new node */
 	newNode = malloc(sizeof(stack_t));
 	if (newNode == NULL)
 	{
-		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		dprintf(STDERR_FILENO, "Error: malloc failed at line %u\n",
+			line_number);
 		return;
 	}
 
+	/* set node values */
 	newNode->n = global_variable;
 	newNode->prev = NULL;
 
+	/* check for empty stack */
 	if (!(*stack))
 	{
 		newNode->next = NULL;
 		*stack = newNode;
 		return;
 	}
+
+	/* explicit null check for prev pointer */
+	if (*stack)
+		(*stack)->prev = newNode;
+
+	/* push new node onto stack */
 	newNode->next = *stack;
-	(*stack)->prev = newNode;
 	*stack = newNode;
 
+	/*
+	* reset global variable to 0 after pushing its value to ensure
+	* predictable behaviour for subsequent pushes
+	*/
 	global_variable = 0;
 }
 
