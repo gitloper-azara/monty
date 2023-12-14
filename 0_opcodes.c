@@ -18,7 +18,7 @@ void op_push(stack_t **stack, unsigned int line_number)
 	if (newNode == NULL)
 	{
 		dprintf(STDERR_FILENO, "Error: malloc failed\n");
-		return;
+		exit(EXIT_FAILURE);
 	}
 
 	/* set node values */
@@ -30,19 +30,26 @@ void op_push(stack_t **stack, unsigned int line_number)
 	{
 		newNode->next = NULL;
 		*stack = newNode;
-		return;
 	}
-
-	/* explicit null check for prev pointer */
-	if (*stack)
-		(*stack)->prev = newNode;
-
-	/* push new node onto stack */
-	newNode->next = *stack;
-	*stack = newNode;
-
+	else
+	{
+		if (monty.dataStruct == USE_QUEUE)
+		{
+			monty.tail->next = newNode;
+			newNode->prev = monty.tail;
+			monty.tail = newNode;
+		}
+		else
+		{
+			newNode->next = *stack;
+			(*stack)->prev = newNode;
+			if ((*stack)->next == NULL)
+				(*stack)->prev = newNode;
+			*stack = newNode;
+		}
+	}
 	/* reset global variable to 0 */
-	global_variable = 0;
+	monty.size++;
 }
 
 /**

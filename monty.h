@@ -13,6 +13,8 @@
 #include <unistd.h>
 
 #define MAX_TOKENS 100
+#define USE_STACK 0
+#define USE_QUEUE 1
 
 extern int global_variable;
 
@@ -47,6 +49,23 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+/**
+ * struct monty_s - keep track of stacks and queues
+ * @dataStruct: data structure to use
+ * @size: size of stack and queue tracker
+ * @tail: helps to use Queue dataStruct
+ */
+
+typedef struct monty_s
+{
+	int dataStruct; /* USE_STACK or USE_QUEUE */
+	size_t size;
+	stack_t *tail; /* used if dataStruct == USE_QUEUE */
+} monty_s;
+
+/* declare monty globally */
+extern monty_s monty;
 
 /* op_codes */
 void op_push(stack_t **stack, unsigned int line_number);
