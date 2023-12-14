@@ -54,3 +54,22 @@ void op_pchar(stack_t **stack, unsigned int line_number)
 	putchar(ascii);
 	putchar('\n');
 }
+
+/**
+ * op_pstr - a function that prints the string starting at the top of the stack
+ * @stack: double pointer to the head of the stack
+ * @line_number: line number of the monty file
+ */
+
+void op_pstr(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp = *stack;
+	(void)line_number;
+
+        while (temp != NULL && temp->n != 0 && (temp->n >= 0 && temp->n <= 127))
+	{
+		putchar(temp->n);
+		temp = temp->next;
+	}
+	putchar('\n');
+}
