@@ -57,6 +57,7 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 		{"pint", op_pint},
 		{"pop", op_pop},
 		{"swap", op_swap},
+		{"add", op_add},
 		{NULL, NULL}
 	};
 	unsigned int idx = 0;

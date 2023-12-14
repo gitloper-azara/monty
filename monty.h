@@ -51,11 +51,17 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/* op_codes */
 void op_push(stack_t **stack, unsigned int line_number);
 void op_pall(stack_t **stack, unsigned int line_number);
 void op_pint(stack_t **stack, unsigned int line_number);
 void op_pop(stack_t **stack, unsigned int line_number);
 void op_swap(stack_t **stack, unsigned int line_number);
+
+/* arithmetic ops */
+void op_add(stack_t **stack, unsigned int line_number);
+
+/* ops handlers */
 char *tokenise(char *line, unsigned int line_number);
 void get_ops(char *ops, stack_t **stack, unsigned int line_number);
 void freeStack(stack_t *head);
