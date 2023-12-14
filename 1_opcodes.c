@@ -18,3 +18,15 @@ void op_add(stack_t **stack, unsigned int line_number)
 	(*stack)->next->n += (*stack)->n;
 	op_pop(stack, line_number);
 }
+
+/**
+ * op_nop - does not do anything
+ * @stack: double pointer to the head of the stack
+ * @line_number: line number of the monty file
+ */
+
+void op_nop(stack_t **stack, unsigned int line_number)
+{
+	(void)stack;
+	(void)line_number;
+}
