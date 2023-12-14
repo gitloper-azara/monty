@@ -26,21 +26,23 @@ char *tokenise(char *line, unsigned int line_number)
 	token = strtok((line != NULL) ? line_copy : NULL, delim);
 	if (token == NULL)
 	{
-		dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
+		dprintf(STDERR_FILENO, "L%u: Unknown instruction\n",
 			line_number);
 		exit(EXIT_FAILURE);
 	}
-	result = strdup(token);
-	if (result == NULL)
-	{
-		dprintf(STDERR_FILENO, "Error: strdup failed\n");
-		exit(EXIT_FAILURE);
-	}
 
-	if (line != NULL)
+	if (line != NULL && token != NULL)
 	{
+		result = strdup(token);
+		if (result == NULL)
+		{
+			dprintf(STDERR_FILENO, "Error: strdup failed\n");
+			exit(EXIT_FAILURE);
+		}
 		free(line_copy);
 	}
+	else
+		result = NULL;
 	return (result);
 }
 
@@ -73,7 +75,9 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 			}
 			search_op[idx].f(stack, line_number);
 			if (token)
+			{
 				free(token);
+			}
 			return;
 		}
 		idx++;
@@ -82,6 +86,8 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 	dprintf(STDERR_FILENO,
 		"L%d: Unknown instruction %s\n", line_number, ops);
 	if (token)
+	{
 		free(token);
+	}
 	exit(EXIT_FAILURE);
 }
