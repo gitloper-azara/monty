@@ -9,50 +9,39 @@
 
 char *tokenise(char *line, unsigned int line_number)
 {
-	static char *line_copy = NULL;
-	/* char *tokens; */
+	char *line_copy = NULL;
 	char *token, *result;
 	char *delim = " \n";
 
 	if (line != NULL)
 	{
-		free(line_copy);
-		line_copy = strdup(line);
+		line_copy = malloc(strlen(line) + 1);
 		if (line_copy == NULL)
 		{
-			dprintf(STDERR_FILENO, "Error: strdup failed\n");
+			dprintf(STDERR_FILENO, "Error: malloc failed\n");
 			exit(EXIT_FAILURE);
 		}
-		token = strtok(line_copy, delim);
-		if (token == NULL)
-		{
-			dprintf(STDERR_FILENO,
-				"L%u: usage debug: push integer\n",
-				line_number);
-			exit(EXIT_FAILURE);
-		}
-		result = strdup(token);
-		free(line_copy);
-		return (result);
+		strcpy(line_copy, line);
 	}
-	else
+	token = strtok((line != NULL) ? line_copy : NULL, delim);
+	if (token == NULL)
 	{
-		token = strtok(NULL, delim);
-		if (token == NULL)
-		{
-			dprintf(STDERR_FILENO,
-				"L%u: usage debug1: push integer\n",
-				line_number);
-			exit(EXIT_FAILURE);
-		}
-		result = strdup(token);
-		if (result == NULL)
-		{
-			dprintf(STDERR_FILENO, "Error: strdup failed\n");
-			exit(EXIT_FAILURE);
-		}
-		return (result);
+		dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
+			line_number);
+		exit(EXIT_FAILURE);
 	}
+	result = strdup(token);
+	if (result == NULL)
+	{
+		dprintf(STDERR_FILENO, "Error: strdup failed\n");
+		exit(EXIT_FAILURE);
+	}
+
+	if (line != NULL)
+	{
+		free(line_copy);
+	}
+	return (result);
 }
 
 /**
@@ -70,7 +59,7 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 		{"pall", op_pall},
 		{NULL, NULL}
 	};
-	char *token;
+	char *token = NULL;
 	int idx = 0;
 
 	while (search_op[idx].opcode)
@@ -83,7 +72,8 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 				global_variable = atoi(token);
 			}
 			search_op[idx].f(stack, line_number);
-			free(token);
+			if (token)
+				free(token);
 			return;
 		}
 		idx++;
@@ -91,6 +81,7 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 
 	dprintf(STDERR_FILENO,
 		"L%d: Unknown instruction %s\n", line_number, ops);
-	/* free(token); */
+	if (token)
+		free(token);
 	exit(EXIT_FAILURE);
 }
