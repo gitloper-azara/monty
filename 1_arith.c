@@ -73,3 +73,30 @@ void op_pstr(stack_t **stack, unsigned int line_number)
 	}
 	putchar('\n');
 }
+
+/**
+ * op_rotl - a function that rotates the stack at the top
+ * @stack: double pointer to the head of the stack
+ * @line_number: line number of the monty file
+ */
+
+void op_rotl(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp, *lastNode;
+	(void)line_number;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+		return;
+	lastNode = *stack;
+
+	while (lastNode->next != NULL)
+		lastNode = lastNode->next;
+
+	temp = *stack;
+	*stack = (*stack)->next;
+	(*stack)->prev = NULL;
+
+	lastNode->next = temp;
+	temp->prev = lastNode;
+	temp->next = NULL;
+}

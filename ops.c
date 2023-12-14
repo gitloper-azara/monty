@@ -68,6 +68,7 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 		{"mod", op_mod},
 		{"pchar", op_pchar},
 		{"pstr", op_pstr},
+		{"rotl", op_rotl},
 		{NULL, NULL}
 	};
 	unsigned int idx = 0;
