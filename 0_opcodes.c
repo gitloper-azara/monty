@@ -12,25 +12,26 @@ void op_push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *newNode = NULL;
 	/* int value; */
-	(void)line_number;
 
-	/*if (global_variable[0] == '\0')
+	if (global_variable == INT_MIN)
 	{
-		printf("L%u: usage: push integer1\n", line_number);
+		dprintf(STDERR_FILENO,
+			"L%u: usage: push integer1\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 
-	value = atoi(global_variable);
+	/*value = atoi(global_variable);
 	if (value == 0 && global_variable[0] != '0')
 	{
-		printf("L%u: usage: push integer2\n", line_number);
+		dprintf(STDERR_FILENO,
+			"L%u: usage: push integer2\n", line_number);
 		exit(EXIT_FAILURE);
 		}*/
 
 	newNode = malloc(sizeof(stack_t));
 	if (newNode == NULL)
 	{
-		printf("Error: malloc failed\n");
+		dprintf(STDERR_FILENO, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
 

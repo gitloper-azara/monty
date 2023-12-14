@@ -26,6 +26,7 @@ char *tokenise(char *line, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
+	free(token);
 	return (token);
 }
 
@@ -56,6 +57,7 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 		idx++;
 	}
 
-	printf("L%d: Unknown instruction %s\n", line_number, ops);
+	dprintf(STDERR_FILENO,
+		"L%d: Unknown instruction %s\n", line_number, ops);
 	exit(EXIT_FAILURE);
 }
