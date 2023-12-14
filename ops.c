@@ -9,41 +9,32 @@
 
 char *tokenise(char *line, unsigned int line_number)
 {
-	char *line_copy = NULL;
-	char *token, *result;
+	char *lineHolder = NULL;
+	char *token;
 	char *delim = " \n";
 
-	if (line != NULL)
+        token = strtok(line, delim);
+	if (token == NULL)
+		return (NULL);
+	lineHolder = strtok(NULL, delim);
+	if (lineHolder)
 	{
-		line_copy = malloc(strlen(line) + 1);
-		if (line_copy == NULL)
+		if (isdigit(lineHolder))
+			global_variable = atoi(lineHolder);
+		else
 		{
-			dprintf(STDERR_FILENO, "Error: malloc failed\n");
+			dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
+				line_number);
 			exit(EXIT_FAILURE);
 		}
-		strcpy(line_copy, line);
 	}
-	token = strtok((line != NULL) ? line_copy : NULL, delim);
-	if (token == NULL)
+	else if (lineHolder == NULL && strcmp(token, "push") == 0)
 	{
-		dprintf(STDERR_FILENO, "L%u: Unknown instruction\n",
+		dprintf(STDERR_FILENO, "L%u: usage: push integer\n",
 			line_number);
 		exit(EXIT_FAILURE);
 	}
-
-	if (line != NULL && token != NULL)
-	{
-		result = strdup(token);
-		if (result == NULL)
-		{
-			dprintf(STDERR_FILENO, "Error: strdup failed\n");
-			exit(EXIT_FAILURE);
-		}
-		free(line_copy);
-	}
-	else
-		result = NULL;
-	return (result);
+	return (token);
 }
 
 /**
@@ -61,33 +52,19 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 		{"pall", op_pall},
 		{NULL, NULL}
 	};
-	char *token = NULL;
 	int idx = 0;
 
 	while (search_op[idx].opcode)
 	{
 		if (strcmp(search_op[idx].opcode, ops) == 0)
 		{
-			if (strcmp(ops, "push") == 0)
-			{
-				token = tokenise(NULL, line_number);
-				global_variable = atoi(token);
-			}
 			search_op[idx].f(stack, line_number);
-			if (token)
-			{
-				free(token);
-			}
 			return;
 		}
 		idx++;
 	}
 
 	dprintf(STDERR_FILENO,
-		"L%d: Unknown instruction %s\n", line_number, ops);
-	if (token)
-	{
-		free(token);
-	}
+		"L%d: Unknown instruction1 %s\n", line_number, ops);
 	exit(EXIT_FAILURE);
 }
