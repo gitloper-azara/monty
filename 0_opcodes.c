@@ -104,3 +104,34 @@ void op_pop(stack_t **stack, unsigned int line_number)
 
 	free(temp);
 }
+
+/**
+ * op_swap - a function that swaps the top two elements of the stack
+ * @stack: double pointer to the head of the stack
+ * @line_number: line number of monty file
+ */
+
+void op_swap(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp;
+
+	if (!stack || !(*stack) || !((*stack)->next))
+	{
+		dprintf(STDERR_FILENO, "L%u: can't swap, stack too short\n",
+			line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	temp = (*stack)->next;
+
+	(*stack)->next = temp->next;
+	temp->prev = NULL;
+
+	if (temp->next)
+		temp->next->prev = *stack;
+
+	temp->next = *stack;
+	(*stack)->prev = temp;
+
+	*stack = temp;
+}
