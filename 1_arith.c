@@ -25,3 +25,32 @@ void op_mod(stack_t **stack, unsigned int line_number)
 	(*stack)->next->n %= (*stack)->n;
 	op_pop(stack, line_number);
 }
+
+/**
+ * op_pchar - a function that prints the char at the top of the stack
+ * @stack: double pointer to the head of the stack
+ * @line_number: line number of the monty file
+ */
+
+void op_pchar(stack_t **stack, unsigned int line_number)
+{
+	int ascii;
+
+	if (!(*stack))
+	{
+		dprintf(STDERR_FILENO, "L%u: can't pchar, stack empty\n",
+			line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	ascii = (*stack)->n;
+	if (ascii < 0 || ascii > 127)
+	{
+		dprintf(STDERR_FILENO, "L%u: can't pchar, value out of range\n",
+			line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	putchar(ascii);
+	putchar('\n');
+}
