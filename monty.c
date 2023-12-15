@@ -1,6 +1,7 @@
 #include "monty.h"
 
-monty_s monty = {USE_STACK, 0, NULL};
+monty_s monty = {USE_STACK, 0, "stack", NULL};
+
 /**
  * main - program entry point
  * @argc: argument count

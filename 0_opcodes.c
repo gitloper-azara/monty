@@ -14,10 +14,10 @@ void op_push(stack_t **stack, unsigned int line_number)
 	(void)line_number;
 
 	/* allocate memory for new node */
-	newNode = malloc(sizeof(stack_t));
+	newNode = _calloc(1, sizeof(stack_t));
 	if (newNode == NULL)
 	{
-		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		dprintf(STDERR_FILENO, "Error: _calloc failed\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -30,6 +30,7 @@ void op_push(stack_t **stack, unsigned int line_number)
 	{
 		newNode->next = NULL;
 		*stack = newNode;
+		monty.tail = *stack;
 	}
 	else
 	{
@@ -48,7 +49,7 @@ void op_push(stack_t **stack, unsigned int line_number)
 			*stack = newNode;
 		}
 	}
-	/* reset global variable to 0 */
+
 	monty.size++;
 }
 

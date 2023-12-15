@@ -74,17 +74,28 @@ void get_ops(char *ops, stack_t **stack, unsigned int line_number)
 	};
 	unsigned int idx = 0;
 
-	while (search_op[idx].opcode)
+	monty.opcode = strtok(ops, " \t");
+	while (monty.opcode)
 	{
-		if (strcmp(search_op[idx].opcode, ops) == 0)
+		if ((_stack(monty.opcode)) || (_queue(monty.opcode)))
 		{
-			search_op[idx].f(stack, line_number);
+			monty.dataStruct = _dataStruct(monty.opcode);
 			return;
 		}
-		idx++;
-	}
+		while (search_op[idx].opcode)
+		{
+			if (strcmp(search_op[idx].opcode, monty.opcode) == 0)
+			{
+				search_op[idx].f(stack, line_number);
+				return;
+			}
+			idx++;
+		}
+		dprintf(STDERR_FILENO,
+			"L%d: Unknown instruction %s\n", line_number,
+			monty.opcode);
+		exit(EXIT_FAILURE);
 
-	dprintf(STDERR_FILENO,
-		"L%d: Unknown instruction %s\n", line_number, ops);
-	exit(EXIT_FAILURE);
+		monty.opcode = strtok(NULL, " \t");
+	}
 }

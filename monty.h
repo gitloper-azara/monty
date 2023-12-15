@@ -13,8 +13,13 @@
 #include <unistd.h>
 
 #define MAX_TOKENS 100
-#define USE_STACK 0
+#define USE_STACK 2
 #define USE_QUEUE 1
+#define USE_DEFAULT 0
+/* macro definitions for stack, queue and dataStruct */
+#define _stack(opcode) (strcmp((opcode), "stack") == 0)
+#define _queue(opcode) (strcmp((opcode), "queue") == 0)
+#define _dataStruct(opcode) ((_stack(opcode)) ? USE_STACK : ((_queue(opcode)) ? USE_QUEUE : USE_DEFAULT))
 
 extern int global_variable;
 
@@ -59,8 +64,9 @@ typedef struct instruction_s
 
 typedef struct monty_s
 {
-	int dataStruct; /* USE_STACK or USE_QUEUE */
+	int dataStruct; /* USE_STACK or USE_QUEUE or USE_DEFAULT */
 	size_t size;
+	char *opcode;
 	stack_t *tail; /* used if dataStruct == USE_QUEUE */
 } monty_s;
 
@@ -93,6 +99,9 @@ void op_rotr(stack_t **stack, unsigned int line_number);
 /* ops handlers */
 char *tokenise(char *line, unsigned int line_number);
 void get_ops(char *ops, stack_t **stack, unsigned int line_number);
+
+/* memory */
+void *_calloc(unsigned int nmemb, unsigned int size);
 void freeStack(stack_t *head);
 
 #endif /* MONTY_H */
