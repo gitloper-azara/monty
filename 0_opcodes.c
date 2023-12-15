@@ -17,7 +17,7 @@ void op_push(stack_t **stack, unsigned int line_number)
 	newNode = _calloc(1, sizeof(stack_t));
 	if (newNode == NULL)
 	{
-		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		dprintf(STDERR_FILENO, "Error: _calloc failed\n");
 		exit(EXIT_FAILURE);
 	}
 

@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	FILE *fp;
 	ssize_t bytesREAD;
 	size_t length = 0;
-	char *line = NULL, *token = NULL;
+	char *line = NULL, **token = NULL;
 	int lineNUM = 0;
 	stack_t *head = NULL;
 
@@ -41,7 +41,10 @@ int main(int argc, char **argv)
 				lineNUM++;
 				token = tokenise(line, lineNUM);
 				if (token)
+				{
 					get_ops(token, &head, lineNUM);
+					free_token(token, MAX_TOKENS);
+				}
 				bytesREAD = getline(&line, &length, fp);
 			}
 			free(line);

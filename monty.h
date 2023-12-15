@@ -10,6 +10,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include <unistd.h>
 
 #define MAX_TOKENS 100
@@ -97,11 +98,12 @@ void op_rotl(stack_t **stack, unsigned int line_number);
 void op_rotr(stack_t **stack, unsigned int line_number);
 
 /* ops handlers */
-char *tokenise(char *line, unsigned int line_number);
-void get_ops(char *ops, stack_t **stack, unsigned int line_number);
+char **tokenise(char *line, unsigned int line_number);
+void get_ops(char **ops, stack_t **stack, unsigned int line_number);
 
 /* memory */
 void *_calloc(unsigned int nmemb, unsigned int size);
+void free_token(char **token, size_t num_tokens);
 void freeStack(stack_t *head);
 
 #endif /* MONTY_H */
