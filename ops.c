@@ -100,6 +100,7 @@ void get_ops(char **ops, stack_t **stack, unsigned int line_number)
 			monty.dataStruct = _dataStruct(monty.opcode);
 			return;
 		}
+		idx = 0;
 		while (search_op[idx].opcode)
 		{
 			if (strcmp(search_op[idx].opcode, monty.opcode) == 0)
