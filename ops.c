@@ -124,8 +124,5 @@ void get_ops(char **ops, stack_t **stack, unsigned int line_number)
 			"L%d: unknown instruction %s\n", line_number,
 			monty.opcode);
 		exit(EXIT_FAILURE);
-
-		/* get the next token */
-		/* monty.opcode = strtok(NULL, " \t"); */
 	}
 }
