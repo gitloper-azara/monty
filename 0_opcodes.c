@@ -86,15 +86,15 @@ void op_pint(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = NULL;
 
-	temp = *stack;
-	printf("%d\n", temp->n);
-
 	if (!stack || !(*stack))
 	{
 		dprintf(STDERR_FILENO, "L%u: can't print, stack empty\n",
 			line_number);
 		exit(EXIT_FAILURE);
 	}
+
+	temp = *stack;
+	printf("%d\n", temp->n);
 }
 
 /**
